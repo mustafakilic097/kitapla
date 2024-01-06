@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "155681186435",
+    "project_id": "kitapla-691fa",
+    "storage_bucket": "kitapla-691fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155681186435:android:c9dc579a898df197ab31b6",
+        "android_client_info": {
+          "package_name": "com.example.kitapla"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155681186435-78j4iebpu4ruesjjb3is349e4pt6k5aa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC21iwuU-u_tMhJzVXpHRwvirGjW34ai8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155681186435-78j4iebpu4ruesjjb3is349e4pt6k5aa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155681186435:android:d97f3fb655b45cccab31b6",
+        "android_client_info": {
+          "package_name": "com.example.okuma_programi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155681186435-ta9aked04k6cjkvpn2vin4fgpi4qlcn9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.okuma_programi",
+            "certificate_hash": "61e1c670fdc97b31a30a55bae1ffee26b4b255b2"
+          }
+        },
+        {
+          "client_id": "155681186435-78j4iebpu4ruesjjb3is349e4pt6k5aa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC21iwuU-u_tMhJzVXpHRwvirGjW34ai8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155681186435-78j4iebpu4ruesjjb3is349e4pt6k5aa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
