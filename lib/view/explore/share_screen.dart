@@ -99,18 +99,17 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                     return;
                   }
                   final SharingModel share = SharingModel(
-                    userId: userId,
-                    sharingName: "${user!.name} ${user!.surname}",
-                    shareTime: DateTime.now(),
-                    shareAccessType: shareType,
-                    likedUsers: [],
-                    resharedUsers: [],
-                    resenderUsers: [],
-                    shareText: shareText.text,
-                    comments: [],
-                    shareBookName: selectedBook?.title ?? "",
-                    shareAuthorName: ""
-                  );
+                      userId: userId,
+                      sharingName: "${user!.name} ${user!.surname}",
+                      shareTime: DateTime.now(),
+                      shareAccessType: shareType,
+                      likedUsers: [],
+                      resharedUsers: [],
+                      resenderUsers: [],
+                      shareText: shareText.text,
+                      commentCount: 0,
+                      shareBookName: selectedBook?.title ?? "",
+                      shareAuthorName: "");
                   setState(() {
                     isLoading = true;
                   });

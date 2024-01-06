@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 
 class CommentModel {
   final String userId;
+  final String shareId;
   final String name; // daha sonraki aşamada burada name parametresi kaldırılacak id'den getirilecek
   String commentText;
   List<String> commentLikes;
@@ -10,6 +11,7 @@ class CommentModel {
 
   CommentModel({
     required this.userId,
+    required this.shareId,
     required this.name,
     required this.commentText,
     required this.commentLikes,
@@ -19,6 +21,7 @@ class CommentModel {
   Map<String, dynamic> toMap() {
     return {
       "userId": userId,
+      "shareId": shareId,
       'name': name,
       'commentText': commentText,
       'commentLikes': commentLikes,
@@ -29,6 +32,7 @@ class CommentModel {
   factory CommentModel.fromMap(Map<String, dynamic> map) {
     return CommentModel(
       userId: map["userId"],
+      shareId:map["shareId"],
       name: map['name'],
       commentText: map['commentText'],
       commentLikes: List<String>.from(map['commentLikes'] ?? []),
@@ -42,6 +46,7 @@ class CommentTypeAdapter extends TypeAdapter<CommentModel> {
   CommentModel read(BinaryReader reader) {
     return CommentModel(
         userId: reader.readString(),
+        shareId: reader.readString(),
         name: reader.readString(),
         commentText: reader.readString(),
         commentLikes: reader.readStringList(),

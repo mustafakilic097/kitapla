@@ -20,10 +20,10 @@ Widget buildShareCard(
     builder: (context, setState) => InkWell(
       customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
-          side: const BorderSide(color: Color(0xFF000000), width: 0.1, strokeAlign: -2)),
+          side: const BorderSide(color: Color(0xFF000000), width: 0.5, strokeAlign: -2)),
       onTap: !isInDetail
           ? () async {
-              await Get.toNamed(NavigationManager.getShareDetailRoute, arguments: [shareData, shareId]);
+              Get.toNamed(NavigationManager.getShareDetailRoute, arguments: [shareData, shareId]);
             }
           : null,
       child: Ink(
@@ -118,8 +118,9 @@ Widget buildShareCard(
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                IconButton(
-                    onPressed: () async {
+                InkWell(
+                    borderRadius: BorderRadius.circular(20),
+                    onTap: () async {
                       if (shareData.likedUsers.contains(userId)) {
                         setState(() {
                           shareData.likedUsers.remove(userId);
@@ -132,31 +133,26 @@ Widget buildShareCard(
                         await Db().sentLikeShare(shareId, userId);
                       }
                     },
-                    icon: shareData.likedUsers.contains(userId)
-                        ? const Icon(
-                            CupertinoIcons.heart_fill,
-                            color: Colors.red,
-                          )
-                        : const Icon(CupertinoIcons.heart)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: AnimatedCrossFade(
+                        firstChild: shareData.likedUsers.contains(userId)
+                            ? const Icon(
+                                CupertinoIcons.heart_fill,
+                                color: Colors.red,
+                              )
+                            : const Icon(CupertinoIcons.heart),
+                        secondChild: const Icon(CupertinoIcons.heart),
+                        crossFadeState: shareData.likedUsers.contains(userId)
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                        duration: const Duration(milliseconds: 600),
+                      ),
+                    )),
                 IconButton(
                     onPressed: !isInDetail
                         ? () async {
-                            await Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (context, animation, secondaryAnimation) {
-                                  return const ShareDetailScreen();
-                                },
-                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                  return SlideTransition(
-                                    position: animation.drive(
-                                        Tween(begin: const Offset(1.0, 0.0), end: const Offset(0.0, 0.0))
-                                            .chain(CurveTween(curve: Curves.fastEaseInToSlowEaseOut))),
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            ).then((value) => setState(() {}));
+                            Get.toNamed(NavigationManager.getShareDetailRoute, arguments: [shareData, shareId]);
                           }
                         : null,
                     icon: const Icon(CupertinoIcons.chat_bubble)),
@@ -166,34 +162,19 @@ Widget buildShareCard(
             ),
             Row(
               children: [
-                shareData.comments.isNotEmpty
+                shareData.commentCount != 0
                     ? TextButton(
                         onPressed: !isInDetail
                             ? () async {
-                                await Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) {
-                                      return const ShareDetailScreen();
-                                    },
-                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                      return SlideTransition(
-                                        position: animation.drive(
-                                            Tween(begin: const Offset(1.0, 0.0), end: const Offset(0.0, 0.0))
-                                                .chain(CurveTween(curve: Curves.fastEaseInToSlowEaseOut))),
-                                        child: child,
-                                      );
-                                    },
-                                  ),
-                                ).then((value) => setState(() {}));
+                                Get.toNamed(NavigationManager.getShareDetailRoute, arguments: [shareData, shareId]);
                               }
                             : null,
                         child: Text(
-                          "${shareData.comments.length} yorum",
+                          "${shareData.commentCount} yorum",
                           style: GoogleFonts.quicksand(color: Colors.grey.shade700),
                         ))
                     : const SizedBox.shrink(),
-                shareData.comments.isNotEmpty && shareData.likedUsers.isNotEmpty
+                shareData.commentCount != 0 && shareData.likedUsers.isNotEmpty
                     ? const Text(
                         "•",
                         style: TextStyle(fontSize: 15, color: Color.fromRGBO(112, 112, 112, 0.326)),

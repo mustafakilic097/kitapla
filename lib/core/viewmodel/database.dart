@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../model/comment_model.dart';
 import '../model/group_model.dart';
 import '../model/message_model.dart';
@@ -180,12 +177,17 @@ class Db {
     await _firebaseFirestore.collection("shares").add(share.toMap());
   }
 
+  Future<List<CommentModel>> getComments(String shareId) async {
+    var ref = _firebaseFirestore.collection("comments").where("shareId", isEqualTo: shareId).limit(10);
+    var data = await ref.get();
+    List<CommentModel> list = data.docs.map((e) => CommentModel.fromMap(e.data())).toList();
+    return list;
+  }
+
   Future<void> sentComment(String shareId, CommentModel comment) async {
-    var ref = _firebaseFirestore.collection("shares").doc(shareId);
-    var doc = await ref.get();
-    List<String> list = List<String>.from(doc.data()?["comments"] ?? []);
-    list.add(jsonEncode(comment.toMap()));
-    await ref.update({"comments": list});
+    //ASlında geri dönüş değeri olarak bir bool göndersek de yorumun gittiğinden kullanıcıyı haberdar etsek
+    await _firebaseFirestore.collection("comments").add(comment.toMap());
+    await _firebaseFirestore.collection("shares").doc(shareId).update({"commentCount": FieldValue.increment(1)});
   }
 
   Future<Map<String, SharingModel>> getSharesWithId(String userId) async {

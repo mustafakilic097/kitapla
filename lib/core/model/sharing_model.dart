@@ -1,11 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
-
-import 'comment_model.dart';
-
 
 enum ShareAccessType { public, private }
 
@@ -20,7 +14,8 @@ class SharingModel {
   String shareText;
   String? shareBookName;
   String? shareAuthorName;
-  List<CommentModel> comments;
+  int commentCount;
+  // List<CommentModel> comments;
 
   SharingModel({
     required this.userId,
@@ -31,17 +26,17 @@ class SharingModel {
     required this.resharedUsers,
     required this.resenderUsers,
     required this.shareText,
+    required this.commentCount,
     this.shareBookName,
     this.shareAuthorName,
-    required this.comments,
   });
 
   factory SharingModel.fromMap(Map<String, dynamic> map) {
-    List<String> strComs = List<String>.from(map["comments"]);
-    List<CommentModel> coms = [];
-    for (var com in strComs) {
-      coms.add(CommentModel.fromMap(jsonDecode(com)));
-    }
+    // List<String> strComs = List<String>.from(map["comments"]);
+    // List<CommentModel> coms = [];
+    // for (var com in strComs) {
+    //   coms.add(CommentModel.fromMap(jsonDecode(com)));
+    // }
     return SharingModel(
         userId: map['userId'],
         shareTime: (map['shareTime'] as Timestamp).toDate(),
@@ -54,7 +49,7 @@ class SharingModel {
         shareText: map['shareText'],
         shareBookName: map['shareBookName'] ?? "",
         shareAuthorName: map['shareAuthorName'] ?? "",
-        comments: coms);
+        commentCount: map["commentCount"] ?? 0);
   }
 
   Map<String, dynamic> toMap() {
@@ -69,7 +64,6 @@ class SharingModel {
       'shareText': shareText,
       'shareBookName': shareBookName,
       'shareAuthorName': shareAuthorName,
-      "comments": comments
     };
   }
 }
@@ -91,19 +85,20 @@ class SharingTypeAdapter extends TypeAdapter<SharingModel> {
     final shareText = reader.readString();
     final shareBookName = reader.readString();
     final shareAuthorName = reader.readString();
-    final comments = reader.read();
+    final commentCount = reader.readInt();
     return SharingModel(
-        userId: userId,
-        shareTime: shareTime,
-        sharingName: sharingName,
-        shareAccessType: shareAccessType == "ShareAccessType.public" ? ShareAccessType.public : ShareAccessType.private,
-        likedUsers: likedUsers,
-        resharedUsers: resharedUsers,
-        resenderUsers: resenderUsers,
-        shareText: shareText,
-        shareBookName: shareBookName,
-        shareAuthorName: shareAuthorName,
-        comments: comments);
+      userId: userId,
+      shareTime: shareTime,
+      sharingName: sharingName,
+      shareAccessType: shareAccessType == "ShareAccessType.public" ? ShareAccessType.public : ShareAccessType.private,
+      likedUsers: likedUsers,
+      resharedUsers: resharedUsers,
+      resenderUsers: resenderUsers,
+      shareText: shareText,
+      shareBookName: shareBookName,
+      shareAuthorName: shareAuthorName,
+      commentCount: commentCount,
+    );
   }
 
   @override
@@ -118,6 +113,6 @@ class SharingTypeAdapter extends TypeAdapter<SharingModel> {
     writer.writeString(obj.shareText);
     writer.writeString(obj.shareBookName ?? "");
     writer.writeString(obj.shareAuthorName ?? "");
-    writer.write(obj.comments);
+    writer.writeInt(obj.commentCount);
   }
 }

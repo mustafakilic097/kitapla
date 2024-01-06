@@ -1,14 +1,12 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kitapla/view/auth/widget_tree.dart';
+import '../../core/base/state/base_state.dart';
 import '../../core/components/card/share_card.dart';
 import '../../core/model/comment_model.dart';
 import '../../core/model/sharing_model.dart';
 import '../../core/model/user_model.dart';
-import '../../core/viewmodel/auth.dart';
 import '../../core/viewmodel/database.dart';
 import '../../core/viewmodel/utils.dart';
 
@@ -21,38 +19,28 @@ class ShareDetailScreen extends StatefulWidget {
   State<ShareDetailScreen> createState() => _ShareDetailScreenState();
 }
 
-class _ShareDetailScreenState extends State<ShareDetailScreen> {
-  late dynamic arguments = Get.arguments;
-  SharingModel get shareData => arguments[0];
-  String get shareId => arguments[1];
-  set shareData(SharingModel changedData){
-    shareData = changedData;
-  }
-  String userId = "";
-  bool pageLoaded = false;
-  UserModel? user;
-  // late SharingModel shareData = shareData;
-  TextEditingController commentText = TextEditingController();
+class _ShareDetailScreenState extends BaseState<ShareDetailScreen> {
+  late SharingModel shareData = Get.arguments[0];
+  late String shareId = Get.arguments[1];
+  bool get pageLoaded => false;
+  late UserModel? user;
+  late TextEditingController commentText = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    try {
-      setState(() {
-        userId = Auth().currentUser!.uid;
-      });
-    } catch (e) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const WidgetTree(),
-          ));
-    }
-    Db().getUserDetail(userId).then((val) {
-      setState(() {
-        user = val;
-      });
-    });
+    Future.delayed(
+      Duration.zero,
+      () async {
+        await Db().getUserDetail(userId).then((val) {
+          if (mounted) {
+            setState(() {
+              user = val;
+            });
+          }
+        });
+      },
+    );
   }
 
   @override
@@ -82,17 +70,32 @@ class _ShareDetailScreenState extends State<ShareDetailScreen> {
               child: ListView(
                 children: [
                   buildShareCard(
-                      context: context,
-                      shareData: shareData,
-                      isInDetail: true,
-                      shareId: shareId,
-                      userId: userId),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: shareData.comments.length,
-                    itemBuilder: (context, i) {
-                      return buildCommentCard(shareData.comments[i]);
+                      context: context, shareData: shareData, isInDetail: true, shareId: shareId, userId: userId),
+                  FutureBuilder(
+                    future: Db().getComments(shareId),
+                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: LinearProgressIndicator(),
+                          ),
+                        );
+                      }
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: Text("..."),
+                        );
+                      }
+                      List<CommentModel> comments = snapshot.data;
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: comments.length,
+                        itemBuilder: (context, i) {
+                          return buildCommentCard(comments[i]);
+                        },
+                      );
                     },
                   ),
                 ],
@@ -127,6 +130,7 @@ class _ShareDetailScreenState extends State<ShareDetailScreen> {
                           }
                           CommentModel comment = CommentModel(
                               userId: userId,
+                              shareId: shareId,
                               name: "${value.name} ${value.surname}",
                               commentText: commentText.text,
                               commentLikes: [],
@@ -135,9 +139,6 @@ class _ShareDetailScreenState extends State<ShareDetailScreen> {
                             FocusScope.of(context).unfocus();
                           }
                           commentText.clear();
-                          setState(() {
-                            shareData.comments.insert(0, comment);
-                          });
                           await Db().sentComment(shareId, comment).then((value) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(content: Text("Yorum gönderildi...")));
@@ -147,6 +148,7 @@ class _ShareDetailScreenState extends State<ShareDetailScreen> {
                       }
                       CommentModel comment = CommentModel(
                           userId: userId,
+                          shareId: shareId,
                           name: "${user!.name} ${user!.surname}",
                           commentText: commentText.text,
                           commentLikes: [],
@@ -155,9 +157,6 @@ class _ShareDetailScreenState extends State<ShareDetailScreen> {
                         FocusScope.of(context).unfocus();
                       }
                       commentText.clear();
-                      setState(() {
-                        shareData.comments.insert(0, comment);
-                      });
                       await Db().sentComment(shareId, comment).then((value) {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(content: Text("Yorum gönderildi...")));
