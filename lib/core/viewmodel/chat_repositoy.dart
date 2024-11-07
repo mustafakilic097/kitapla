@@ -25,10 +25,8 @@ class ChatRepository extends ChangeNotifier {
     List<ChatModel> chats = [];
     for (var i = 0; i < chatBox.length; i++) {
       ChatModel? chat = chatBox.getAt(i);
-      if (chat != null) {
-        chats.add(chat);
-      }
-    }
+      chats.add(chat!);
+        }
     chatsData.clear();
     chatsData.addAll(chats);
     notifyListeners();

@@ -123,8 +123,8 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                   });
                 },
                 style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.orange),
-                    foregroundColor: MaterialStatePropertyAll(Colors.white)),
+                    backgroundColor: WidgetStatePropertyAll(Colors.orange),
+                    foregroundColor: WidgetStatePropertyAll(Colors.white)),
                 child: const Text("Paylaş"),
               ),
             )

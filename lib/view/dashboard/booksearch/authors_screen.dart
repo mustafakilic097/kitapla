@@ -496,8 +496,8 @@ class _AuthorsScreenState extends State<AuthorsScreen> {
                               }
                             },
                             style: ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(Colors.blue.shade50),
-                                foregroundColor: const MaterialStatePropertyAll(Color.fromRGBO(13, 71, 161, 1))),
+                                backgroundColor: WidgetStatePropertyAll(Colors.blue.shade50),
+                                foregroundColor: const WidgetStatePropertyAll(Color.fromRGBO(13, 71, 161, 1))),
                             icon: const Icon(Icons.search),
                             label: const Text("Ara")),
                       ),

@@ -117,7 +117,7 @@ class _ShareDetailScreenState extends BaseState<ShareDetailScreen> {
                 border: InputBorder.none,
                 suffixIcon: IconButton(
                   style: const ButtonStyle(
-                    iconColor: MaterialStatePropertyAll(Colors.blue),
+                    iconColor: WidgetStatePropertyAll(Colors.blue),
                   ),
                   onPressed: () async {
                     if (commentText.text.isNotEmpty) {

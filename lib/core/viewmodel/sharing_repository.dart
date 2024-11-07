@@ -25,10 +25,8 @@ class SharingRepository extends ChangeNotifier {
     List<SharingModel> shares = [];
     for (var i = 0; i < shareBox.length; i++) {
       SharingModel? share = shareBox.getAt(i);
-      if (share != null) {
-        shares.add(share);
-      }
-    }
+      shares.add(share!);
+        }
     sharesData.clear();
     sharesData.addAll(shares);
     notifyListeners();

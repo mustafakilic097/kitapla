@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sweet_nav_bar/sweet_nav_bar.dart';
+import 'package:sweet_nav_bar/sweet_nav_bar.dart' as SweetNavBar;
 import '../../core/base/state/base_state.dart';
 import '../chat/chat_screen.dart';
 import '../profile/profile_screen.dart';
@@ -38,27 +38,20 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
   }
 
-  Widget get buildBottomNavBar => SweetNavBar(
+  Widget get buildBottomNavBar => BottomNavigationBar(
         currentIndex: currentIndex,
-        padding: const EdgeInsets.all(0),
-        borderRadius: 0,
-        backgroundColor: Colors.white,
+        fixedColor: Colors.deepOrange,
+        useLegacyColorScheme: false,
+        
         items: [
-          SweetNavBarItem(
-              sweetIcon: const Icon(CupertinoIcons.home), sweetLabel: 'Ana Sayfa', sweetBackground: Colors.white),
-          SweetNavBarItem(
-              sweetIcon: const Icon(CupertinoIcons.chat_bubble_text),
-              sweetLabel: 'Mesajlar',
-              sweetBackground: Colors.white),
-          SweetNavBarItem(
-              sweetIcon: const Icon(CupertinoIcons.person_crop_circle),
-              sweetLabel: 'Profil',
-              sweetBackground: Colors.white),
-          SweetNavBarItem(
-              sweetIcon: const Icon(CupertinoIcons.add_circled_solid, color: Colors.orange),
-              iconColors: [Colors.orange, Colors.orange],
-              sweetLabel: "Ekle",
-              sweetBackground: Colors.white)
+          BottomNavigationBarItem(
+              icon: const Icon(CupertinoIcons.home), label: 'Ana Sayfa'),
+          BottomNavigationBarItem(
+              icon: const Icon(CupertinoIcons.chat_bubble_text), label: 'Mesajlar'),
+          BottomNavigationBarItem(
+              icon: const Icon(CupertinoIcons.person_crop_circle), label: 'Profil'),
+          BottomNavigationBarItem(
+              icon: const Icon(CupertinoIcons.add_circled_solid), label: 'Ekle'),
         ],
         onTap: (index) {
           if (index == 3) {

@@ -18,7 +18,7 @@ class ConnectivityProvider extends StatefulWidget {
 
 class _ConnectivityProviderState extends State<ConnectivityProvider> {
   late Connectivity _connectivity;
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   bool isConnected = false;
 
@@ -26,17 +26,17 @@ class _ConnectivityProviderState extends State<ConnectivityProvider> {
   void initState() {
     super.initState();
     _connectivity = Connectivity();
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen((List<ConnectivityResult> results) {
       setState(() {
-        isConnected = result != ConnectivityResult.none;
+        isConnected = results.isNotEmpty && results.first != ConnectivityResult.none;
       });
     });
   }
 
   @override
   void dispose() {
-    super.dispose();
     _connectivitySubscription.cancel();
+    super.dispose();
   }
 
   @override

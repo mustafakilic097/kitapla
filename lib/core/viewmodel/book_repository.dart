@@ -96,16 +96,14 @@ class BookRepository extends ChangeNotifier {
       // print("name:$name book:${book?.title}");
       // gelen key list ile başlamıyorsa
       if (!name.startsWith("list") && !(name.split("~").length < 3)) continue;
-
-      if (book == null) continue;
       result.update(
         name.split("~")[1],
         (value) {
-          value.add(book);
+          value.add(book!);
           return value;
         },
         ifAbsent: () {
-          return [book];
+          return [book!];
         },
       );
     }
@@ -194,8 +192,7 @@ class BookRepository extends ChangeNotifier {
       String name = bookBox.keyAt(i);
       if (!name.startsWith("fav")) continue;
       BookModel? book = bookBox.getAt(i);
-      if (book == null) continue;
-      result.addEntries({name: book}.entries);
+      result.addEntries({name: book!}.entries);
     }
 
     //SIRALAMA İŞLEMİ

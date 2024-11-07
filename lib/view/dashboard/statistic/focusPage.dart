@@ -29,7 +29,7 @@ class _FocusPageState extends State<FocusPage> {
   }
 
   void stopTimer() {
-    _timer != null ? _timer!.cancel() : null;
+    _timer?.cancel();
     setState(() {
       isActive = false;
     });
@@ -57,7 +57,7 @@ class _FocusPageState extends State<FocusPage> {
   void dispose() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     super.dispose();
-    _timer != null ? _timer!.cancel() : null;
+    _timer?.cancel();
   }
 
   String sureGetir(int saniye) {
@@ -114,7 +114,7 @@ class _FocusPageState extends State<FocusPage> {
               InkWell(
                 onTap: () {
                   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
-                  _timer != null ? _timer!.cancel() : null;
+                  _timer?.cancel();
                   Navigator.pop(context);
                 },
                 child: const Icon(

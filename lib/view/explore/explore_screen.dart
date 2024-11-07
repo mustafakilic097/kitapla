@@ -20,11 +20,12 @@ class _ExploreScreenState extends BaseState<ExploreScreen> {
       viewModel: "",
       onPageBuilder: (context, value) {
         return NestedScrollView(
-            physics: const BouncingScrollPhysics(),
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return headArea;
-            },
-            body: scaffoldBody);
+          physics: const BouncingScrollPhysics(),
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return headArea;
+          },
+          body: scaffoldBody,
+        );
       },
       onModelReady: (model) {},
     );
@@ -41,30 +42,39 @@ class _ExploreScreenState extends BaseState<ExploreScreen> {
             return RefreshIndicator(
               backgroundColor: Colors.white,
               color: Colors.black,
-              onRefresh: () {
-                return Future(() {
-                  setState(() {});
-                });
+              onRefresh: () async {
+                if (!mounted) return;
+                setState(() {});
               },
               child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount:
-                      (snapshot.data?.keys.toList() ?? []).isEmpty ? 1 : (snapshot.data?.keys.toList() ?? []).length,
-                  itemBuilder: (context, i) {
-                    if ((snapshot.data?.keys.toList() ?? []).isEmpty) {
-                      return const Center(
-                        child: Text("Burası Boş."),
-                      );
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: buildShareCard(
+                padding: EdgeInsets.zero,
+                physics: const BouncingScrollPhysics(),
+                itemCount: (snapshot.data?.keys.toList() ?? []).isEmpty
+                    ? 1
+                    : (snapshot.data?.keys.toList() ?? []).length,
+                itemBuilder: (context, i) {
+                  if ((snapshot.data?.keys.toList() ?? []).isEmpty) {
+                    return const Center(
+                      child: Text("Burası Boş."),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Column(
+                      children: [
+                        buildShareCard(
                           context: context,
                           shareData: (snapshot.data?.values.toList() ?? [])[i],
                           shareId: (snapshot.data?.keys.toList() ?? [])[i],
-                          userId: userId),
-                    );
-                  }),
+                          userId: userId,
+                        ),
+                        Divider(
+                          color: Colors.grey.shade300,)
+                      ],
+                    ),
+                  );
+                },
+              ),
             );
           },
         ),
@@ -92,11 +102,14 @@ class _ExploreScreenState extends BaseState<ExploreScreen> {
         child: Row(
           children: [
             Expanded(
-                child: DecoratedBox(
-              decoration: BoxDecoration(border: Border.all(width: 0.6), borderRadius: BorderRadius.circular(30)),
-              child: TextField(
-                focusNode: FocusNode(),
-                decoration: InputDecoration(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 0.6),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: TextField(
+                  focusNode: FocusNode(),
+                  decoration: InputDecoration(
                     hintText: "Ara...",
                     hintStyle: GoogleFonts.quicksand(),
                     fillColor: Colors.grey.shade100,
@@ -107,16 +120,22 @@ class _ExploreScreenState extends BaseState<ExploreScreen> {
                       color: Colors.grey.shade500,
                     ),
                     contentPadding: const EdgeInsets.all(8),
-                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(30))),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                ),
               ),
-            )),
+            ),
             IconButton(
-                onPressed: () {},
-                icon: Image.asset(
-                  "assets/options.png",
-                  width: 22,
-                  height: 22,
-                )),
+              onPressed: () {},
+              icon: Image.asset(
+                "assets/options.png",
+                width: 22,
+                height: 22,
+              ),
+            ),
           ],
         ),
       );

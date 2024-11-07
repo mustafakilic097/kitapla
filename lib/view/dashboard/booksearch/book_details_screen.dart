@@ -252,7 +252,7 @@ class _BookDetailsState extends ConsumerState<BookDetails> {
                                               icon: const Icon(Icons.edit),
                                               label: const Text("Düzenle"),
                                               style: const ButtonStyle(
-                                                  backgroundColor: MaterialStatePropertyAll(Colors.green)),
+                                                  backgroundColor: WidgetStatePropertyAll(Colors.green)),
                                             ),
                                           ),
                                         ),
@@ -487,7 +487,7 @@ class _BookDetailsState extends ConsumerState<BookDetails> {
                                   });
                                 },
                                 icon: const Icon(Icons.add_box_rounded),
-                                style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white60)),
+                                style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white60)),
                                 color: Colors.grey.shade700,
                               )
                             ],
@@ -569,8 +569,8 @@ class _BookDetailsState extends ConsumerState<BookDetails> {
                         child: ElevatedButton(
                             onPressed: () {},
                             style: ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(Colors.grey.shade50),
-                                foregroundColor: const MaterialStatePropertyAll(Colors.blue)),
+                                backgroundColor: WidgetStatePropertyAll(Colors.grey.shade50),
+                                foregroundColor: const WidgetStatePropertyAll(Colors.blue)),
                             child: const Text("Gruplara Git")),
                       ),
                       SizedBox(
@@ -578,8 +578,8 @@ class _BookDetailsState extends ConsumerState<BookDetails> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(Colors.grey.shade50),
-                              foregroundColor: const MaterialStatePropertyAll(Colors.blue)),
+                              backgroundColor: WidgetStatePropertyAll(Colors.grey.shade50),
+                              foregroundColor: const WidgetStatePropertyAll(Colors.blue)),
                           child: const Text("Paylaşımlara Git"),
                         ),
                       ),

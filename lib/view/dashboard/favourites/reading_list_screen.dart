@@ -147,7 +147,7 @@ class _ReadingListState extends ConsumerState<ReadingList> {
                               });
                             },
                             icon: const Icon(Icons.add_box_rounded),
-                            style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white60)),
+                            style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white60)),
                             color: Colors.grey.shade700,
                           )
                         ],
@@ -346,7 +346,7 @@ class _ReadingListState extends ConsumerState<ReadingList> {
                               });
                             },
                             icon: const Icon(Icons.add_box_rounded),
-                            style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white60)),
+                            style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white60)),
                             color: Colors.grey.shade700,
                           )
                         ],

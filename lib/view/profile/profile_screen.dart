@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kitapla/view/dashboard/favourites/reading_list_screen.dart';
-import 'package:kitapla/view/auth/widget_tree.dart';
 
 import '../../core/model/user_model.dart';
 import '../../core/viewmodel/auth.dart';
@@ -41,15 +40,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         });
       },
     );
-    if (uid == null) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const WidgetTree(),
-          ));
-      return;
-    }
-    getUserData(uid);
+    getUserData(uid!);
   }
 
   Future<void> getUserData(String uid) async {

@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:kitapla/core/init/navigation/navigation_manager.dart';
+import 'firebase_options.dart'; // Import the generated firebase_options.dart
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -24,7 +27,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primaryColor: Colors.primaries[17],
         colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: const Color.fromRGBO(255, 102, 102, 1), secondary: const Color.fromRGBO(255, 242, 204, 1)),
+          primary: const Color.fromRGBO(255, 102, 102, 1),
+          secondary: const Color.fromRGBO(255, 242, 204, 1),
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );

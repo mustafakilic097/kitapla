@@ -176,10 +176,9 @@ class NoteRepository extends ChangeNotifier {
       Hive.registerAdapter(NotesAdapter());
     }
     Note? note = noteBox.getAt(noteIndex);
-    if (note == null) return;
     if (newColor.length < 2) return;
-    note.gradientColors = newColor;
-    await noteBox.putAt(noteIndex, note);
+    note?.gradientColors = newColor;
+    await noteBox.putAt(noteIndex, note!);
     await getAllNotes("1", noteBox);
   }
 
